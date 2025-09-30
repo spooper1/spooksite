@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SAW | ECS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="website container">
+        <h1 style="text-align: center; margin: 0 0 12px 0; color: aliceblue;">Subjects</h1>
+        <ul>
+            <li><a class="sidebar-button" href="index.html" target="_self">Home</a></li>
+            <li><a class="sidebar-button" href="math.html" target="_self">Math</a></li>
+            <li><a class="sidebar-button" href="ela.html" target="_self">ELA</a></li>
+            <li><a class="sidebar-button" href="spanish.html" target="_self">Spanish</a></li>
+            <li><a class="sidebar-button" href="art.html" target="_self">Art</a></li>
+            <li><a class="sidebar-button" href="health.html" target="_self">Health</a></li>
+        </ul>
+    </div>
+    <div class="main-gallery" style="width:96vw; max-width:1200px; height:calc(100vh - 140px); margin:16px auto; padding:24px; background:#0074e0; border:2px solid #1f93ff; box-shadow:0 8px 24px rgba(0,0,0,0.18); border-radius:8px; display:flex; flex-wrap:wrap; gap:18px; overflow:auto; align-content:flex-start;">
+        <h1>My cool looking ECS projects, arranged in no set order to look like a nice museum.</h1>
+        
+        <figure class="museum-item" role="button" tabindex="0" style="flex:1 1 30%; min-width:220px; margin:0; text-align:center; font-family:Georgia, 'Times New Roman', serif; cursor:pointer;">
+            <!-- role=button + tabindex makes the figure keyboard-focusable and behave like a button for accessibility -->
+            <h3 style="margin:0 0 8px 0; font-size:1.05rem; font-style:italic; color:#333;">Slippery Floor</h3>
+            <img src="images/stickfella.gif" alt="Gif of a stick figure falling." style="width:100%; height:220px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+            <figcaption style="margin-top:8px; font-size:0.85rem; color:#555;">Just a simple animation made in Adobe Animate on a free assignment day. 9/25/25</figcaption>
+        </figure>
+
+        <figure class="museum-item" role="button" tabindex="0" style="flex:1 1 30%; min-width:220px; margin:0; text-align:center; font-family:Georgia, 'Times New Roman', serif; cursor:pointer;">
+            <h3 style="margin:0 0 8px 0; font-size:1.05rem; font-style:italic; color:#333;">"Oh great heavens!"</h3>
+            <img src="images/cool-spookgif.gif" alt="Gif of a nice man being comically crushed by an anvil." style="width:100%; height:220px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+            <figcaption style="margin-top:8px; font-size:0.85rem; color:#555;">A simple animation made using layers in Photoshop. 8/14/25</figcaption>
+        </figure>
+
+        <figure class="museum-item" role="button" tabindex="0" style="flex:1 1 30%; min-width:220px; margin:0; text-align:center; font-family:Georgia, 'Times New Roman', serif; cursor:pointer;">
+            <h3 style="margin:0 0 8px 0; font-size:1.05rem; font-style:italic; color:#333;">Cool painting</h3>
+            <img src="images/cool_painting.jpg" alt="A nice looking painting." style="width:100%; height:220px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+            <figcaption style="margin-top:8px; font-size:0.85rem; color:#555;">A painting made using digital brushes and strokes in Photoshop. 8/21/25</figcaption>
+        </figure>
+
+        <figure class="museum-item" role="button" tabindex="0" style="flex:1 1 30%; min-width:220px; margin:0; text-align:center; font-family:Georgia, 'Times New Roman', serif; cursor:pointer;">
+            <h3 style="margin:0 0 8px 0; font-size:1.05rem; font-style:italic; color:#333;">Wish I could put the Pinegrove Shuffle</h3>
+            <img src="images/roadblocks.png" alt="An image showing a quote about overcoming roadblocks." style="width:100%; height:220px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+            <figcaption style="margin-top:8px; font-size:0.85rem; color:#555;">A poster with a quote from DJ Khaled, made in Illustrator. 9/16/25</figcaption>
+        </figure>
+
+        <figure class="museum-item" role="button" tabindex="0" style="flex:1 1 30%; min-width:220px; margin:0; text-align:center; font-family:Georgia, 'Times New Roman', serif; cursor:pointer;">
+            <h3 style="margin:0 0 8px 0; font-size:1.05rem; font-style:italic; color:#333;">Creepy Ryan Gosling</h3>
+            <img src="images/ryan_goatling.png" alt="A watercolor style portrait." style="width:100%; height:220px; object-fit:cover; border:1px solid #ddd; border-radius:4px;">
+            <figcaption style="margin-top:8px; font-size:0.85rem; color:#555;">A portrait of Ryan Gosling made using blending and small brush strokes, made in Photoshop. 9/4/25</figcaption>
+        </figure>
+    </div>
+
+    <!-- Fullscreen overlay / lightbox -->
+    <div id="museum-lightbox" role="dialog" aria-hidden="true" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.86); z-index:9999; padding:24px; box-sizing:border-box; opacity:0;">
+        <button id="lightbox-close" aria-label="Close" style="position:absolute; left:16px; top:16px; width:44px; height:44px; background:transparent; color:#a3a3a3; border:2px solid rgba(255,255,255,0.2); border-radius:6px; font-size:20px; line-height:1; cursor:pointer;">✕</button>
+
+        <!-- Prev/Next arrows -->
+        <button id="lightbox-prev" aria-label="Previous" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:56px; height:56px; border-radius:8px; background:rgba(0,0,0,0.36); color:#fff; border:2px solid rgba(255,255,255,0.08); font-size:28px; cursor:pointer;">‹</button>
+        <button id="lightbox-next" aria-label="Next" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); width:56px; height:56px; border-radius:8px; background:rgba(0,0,0,0.36); color:#fff; border:2px solid rgba(255,255,255,0.08); font-size:28px; cursor:pointer;">›</button>
+
+        <div id="lightbox-content" style="max-width:1200px; width:100%; max-height:100%; background:transparent; display:flex; flex-direction:column; align-items:center; gap:12px; box-sizing:border-box;">
+            <h2 id="lightbox-title" style="margin:0; color:#fff; font-family:Georgia, 'Times New Roman', serif; font-weight:400; font-size:1.6rem; text-align:center; text-shadow:0 2px 8px rgba(0,0,0,0.6);"></h2>
+
+            <div style="flex:1 1 auto; width:100%; display:flex; align-items:center; justify-content:center; overflow:auto;">
+                <img id="lightbox-image" src="" alt="" style="max-width:100%; max-height:80vh; border-radius:6px; box-shadow:0 12px 40px rgba(0,0,0,0.6); object-fit:contain;">
+            </div>
+
+            <div id="lightbox-caption" style="width:100%; color:#eaeaea; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 100%); padding:12px 16px; box-sizing:border-box; border-radius:6px; font-size:1rem; text-align:center;"></div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const items = document.querySelectorAll('.museum-item');
+            const itemArray = Array.from(items); // convert NodeList to Array for easier indexing
+            const lightbox = document.getElementById('museum-lightbox');
+            const lbImage = document.getElementById('lightbox-image');
+            const lbTitle = document.getElementById('lightbox-title');
+            const lbCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.getElementById('lightbox-close');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+
+            let currentIndex = -1;
+
+            function showAt(index) {
+                if (itemArray.length === 0) return;
+                // normalize index to always be in range (supports negative wrap and overflow)
+                currentIndex = ((index % itemArray.length) + itemArray.length) % itemArray.length;
+                const fig = itemArray[currentIndex];
+                const img = fig.querySelector('img');
+                const titleEl = fig.querySelector('h3');
+                const captionEl = fig.querySelector('figcaption');
+                // populate lightbox content from the clicked figure
+                lbImage.src = img ? img.src : '';
+                lbImage.alt = img ? (img.alt || (titleEl ? titleEl.textContent : '')) : '';
+                lbTitle.textContent = titleEl ? titleEl.textContent.trim() : '';
+                lbCaption.textContent = captionEl ? captionEl.textContent.trim() : '';
+                // update prev/next visibility or aria (keeps circular behavior here)
+                prevBtn.disabled = false;
+                nextBtn.disabled = false;
+                // move focus to close for keyboard users so Esc and other keys behave predictably
+                closeBtn.focus();
+            }
+
+            function openLightbox(index) {
+                if (itemArray.length === 0) return;
+                const wasOpen = lightbox.style.display === 'flex';
+                showAt(index);
+
+                if (!wasOpen) {
+                    lightbox.style.display = 'flex';
+                    lightbox.setAttribute('aria-hidden', 'false'); // expose dialog to assistive tech
+                    document.body.style.overflow = 'hidden'; // prevent background scrolling
+                    requestAnimationFrame(() => {
+                        // fade-in via opacity transition
+                        lightbox.style.transition = 'opacity 200ms ease';
+                        lightbox.style.opacity = '1';
+                    });
+                }
+            }
+
+            function closeLightbox() {
+                lightbox.style.transition = 'opacity 180ms ease';
+                lightbox.style.opacity = '0';
+                lightbox.setAttribute('aria-hidden', 'true'); // hide from assistive tech
+                document.body.style.overflow = '';
+                lightbox.addEventListener('transitionend', function handler(e) {
+                    if (e.propertyName === 'opacity') {
+                        // after fade-out, fully hide and clean up image src
+                        lightbox.style.display = 'none';
+                        lbImage.src = '';
+                        currentIndex = -1;
+                        lightbox.removeEventListener('transitionend', handler);
+                    }
+                }, { once: true }); // ensure handler runs only once
+            }
+
+            function showNext() {
+                if (currentIndex === -1) return;
+                showAt(currentIndex + 1);
+            }
+
+            function showPrev() {
+                if (currentIndex === -1) return;
+                showAt(currentIndex - 1);
+            }
+
+            itemArray.forEach((fig, idx) => {
+                fig.addEventListener('click', function () {
+                    openLightbox(idx);
+                });
+
+                fig.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault(); // prevent page scroll on space
+                        fig.click(); // activate via keyboard
+                    }
+                });
+            });
+
+            closeBtn.addEventListener('click', closeLightbox);
+            prevBtn.addEventListener('click', showPrev);
+            nextBtn.addEventListener('click', showNext);
+
+            // click outside content to close (clicking the overlay itself)
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // keyboard shortcuts when lightbox open: Esc, ArrowLeft, ArrowRight
+            document.addEventListener('keydown', function (e) {
+                const isOpen = lightbox.style.display === 'flex';
+                if (!isOpen) return;
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                    return;
+                }
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    showPrev();
+                    return;
+                }
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    showNext();
+                    return;
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>

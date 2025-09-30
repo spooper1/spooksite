@@ -1,0 +1,269 @@
+:root {
+    /* CSS custom properties for easy theming */
+    --sidebar-width: 180px;
+    --accent: #94d4ff; /* accent color for buttons and highlights */
+    --anim-long: 900ms;
+    --float-amt: 6px;
+}
+
+/* subtle animated page gradient */
+@keyframes gradientShift {
+    0% { background-position: 75% 50%; }
+    50% { background-position: 100% 75%; }
+    100% { background-position: 75% 50%; }
+}
+
+/* floating elevation for the panel */
+@keyframes float {
+    0% { transform: translateY(0); box-shadow: -2px 8px 24px rgba(0,0,0,0.18); }
+    50% { transform: translateY(calc(-0.3 * var(--float-amt))); box-shadow: -2px 10px 26px rgba(0,0,0,0.22); }
+    100% { transform: translateY(0); box-shadow: -2px 8px 24px rgba(0,0,0,0.18); }
+}
+
+/* slide/fade-in for list items */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* subtle shimmer for button text/highlight */
+@keyframes shimmer {
+    0%   { background-position: -500% 0; }
+    100% { background-position: 500% 0; }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* ensure background gradient fills full viewport height */
+    /* animated gradient background */
+    background: linear-gradient(120deg, #004a80 0%, #003068 40%, #00154d 100%);
+    background-size: 200% 200%;
+    animation: gradientShift var(--anim-long) ease-in-out infinite;
+    color: #fff;
+    padding-left: 0; /* explicitly reset, duplicated later as well */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    animation: gradientShift var(--anim-long) ease-in-out infinite;
+    color: #fff;
+    text-align: center;
+}
+
+.iframe-container iframe {
+  display: block; /* Important for margin: auto to work */
+  margin: 0 auto; /* Centers horizontally */
+}
+
+/* selects an element that has BOTH classes "website" and "container" (not a descendant) */
+.website.container {
+    position: fixed; /* keep sidebar panel visible when scrolling */
+    right: 12px; /* offset from right edge */
+    top: 40px; /* align with main content's top padding */
+    width: fit-content; /* shrink to fit its contents (avoid full width) */
+    max-width: var(--sidebar-width); /* enforce a compact panel width using variable */
+    background: linear-gradient(180deg,#5b82c2 0%, #4d74af 100%);
+    padding: 12px;
+    box-sizing: border-box; /* include padding in width calculations */
+    border-left: 1px solid rgba(0,0,0,0.06);
+    overflow: visible; /* allow shadows/overflow to be shown outside the box */
+    box-shadow: -2px 8px 24px rgba(0,0,0,0.18); /* subtle elevated look */
+    border-radius: 8px;
+    will-change: transform, box-shadow;
+    /* gentle idle float to feel alive (reduced on small screens by media query) */
+    animation: float calc(var(--anim-long) * 1.2) ease-in-out infinite;
+    transform-origin: center;
+}
+
+.website.container h1 {
+    font-size: 1.05rem;
+    margin: 0 0 12px 0;
+    color: #111; /* dark text inside the light panel for contrast */
+    text-align: left;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li + li {
+    margin-top: 10px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+/* makes each link look and behave like a button and fill the panel's content area */
+.sidebar-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    padding: 10px 12px;
+    background: linear-gradient(180deg,#234f86 0%, #245194 100%);
+    color: var(--accent);
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    font-size: 0.98rem;
+    transition: transform var(--anim-fast) ease, box-shadow var(--anim-medium) ease, filter var(--anim-medium) ease, background-color var(--anim-medium) ease;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    overflow: hidden; /* for shimmer */
+}
+
+/* shimmer layer (uses a repeating gradient) */
+.sidebar-button::before {
+    content: "";
+    position: absolute;
+    left: -40%;
+    top: 0;
+    height: 100%;
+    width: 180%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.0) 55%);
+    transform: skewX(-12deg);
+    pointer-events: none;
+    transition: opacity var(--anim-fast) ease;
+    opacity: 0;
+}
+
+/* show shimmer briefly on hover/focus */
+.sidebar-button:hover::before, .sidebar-button:focus::before {
+    opacity: 1;
+    animation: shimmer 900ms linear 1;
+}
+
+/* hover/focus effect */
+.sidebar-button:hover, /* hover effect */
+.sidebar-button:focus { /* focus effect for accessibility */
+    filter: brightness(1.12); /* slightly brighten */
+    background-color: #c2d5ff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.16); /* stronger shadow */
+    transform: translateY(-2px) scale(1.01);
+    outline: none; /* remove default focus outline */
+}
+
+/* active (press) feedback */
+.sidebar-button:active {
+    transform: translateY(0) scale(0.995);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+/* small pulsing accent glow on focus for keyboard users */
+.sidebar-button:focus-visible {
+    box-shadow: 0 0 0 4px rgba(148,212,255,0.12), 0 6px 18px rgba(0,0,0,0.16);
+}
+
+/* indicate external links */
+.sidebar-button[target="_blank"]::after {
+    font-size: 0.9em;
+    color: rgb(255, 255, 255);
+    margin-left: 6px;
+    opacity: 0.9;
+}
+
+/* animate the list items in with a small stagger */
+.website.container ul li {
+    opacity: 0;
+    animation: slideIn 420ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+.website.container ul li:nth-child(1) { animation-delay: 60ms; }
+.website.container ul li:nth-child(2) { animation-delay: 140ms; }
+.website.container ul li:nth-child(3) { animation-delay: 220ms; }
+.website.container ul li:nth-child(4) { animation-delay: 300ms; }
+.website.container ul li:nth-child(5) { animation-delay: 380ms; }
+.website.container ul li:nth-child(6) { animation-delay: 440ms; }
+
+/* main content area */ 
+.main-content {
+    padding: 40px;
+    color: #f0f0f0;
+    margin-right: calc(var(--sidebar-width) + 36px); /* reserve space for the compact panel on the right */
+    margin-left: 0;
+}
+
+@media (max-width: 600px) {
+    .website.container {
+        position: fixed; /* pin to top on small screens */
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: none;
+        --topbar-height: 60px; /* used to offset main content */
+        height: var(--topbar-height); /* fixed height */
+        display: flex; /* use flexbox for horizontal layout */
+        align-items: center;
+        justify-content: center; /* center items horizontally */
+        padding: 8px 12px;
+        box-sizing: border-box; /* include padding in width */
+        border-left: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+        border-radius: 0;
+        z-index: 1000; /* ensure it sits above other content */
+        /* stop float animation on small screens to avoid motion issues */
+        animation: none;
+    }
+
+.website.container h1 {
+        margin: 0;
+        font-size: 1rem; /* slightly smaller font */
+        color: rgb(156, 156, 156);
+}
+
+.website.container ul {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    justify-content: center;
+}
+
+.website.container li {
+    margin: 0;
+    list-style: none;
+    opacity: 1; /* avoid slide-in on small screens */
+}
+
+/* make buttons compact and horizontally laid out */
+.sidebar-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+/* ensure main content does not sit under the topbar */
+.main-content {
+    margin-right: 0;
+    padding-top: calc(var(--topbar-height) + 12px);
+}
+}
+body {
+    padding-left: 0;
+}
+.sidebar-button {
+    font-size: 1rem;
+}
+.main-content {
+    margin-right: 0;
+}
